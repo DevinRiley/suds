@@ -5,7 +5,8 @@ module SUDS
 		@player = Player.new
 		@map    = DungeonMap.new(YAML.load_file('dungeon_map.yml')['rooms'])
 
-		# Define all map traversal methods dynamically
+		# Define all map traversal methods dynamically (e.g. go_north).
+		# All they do is call the traverse method with a path.
 		PATHS.each do |path|
 			define_singleton_method "go_#{path}" do
 				traverse(path)

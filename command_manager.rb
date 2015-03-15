@@ -9,6 +9,8 @@ module SUDS
 			'help' => 'show_help'
 		}
 
+		# if command manager doesn't have the method we're
+		# trying to call, try it on the Dungeon class.
 	  def self.method_missing(command)
 	  	command = command.to_s
 			if COMMANDS.has_key?(command)
@@ -20,8 +22,10 @@ module SUDS
 
 		private
 
+		# The help command just prints back our commands hash
+		# except for the help command itself
 		def self.help
-			COMMANDS.reject { |k| k == 'help' }
+			COMMANDS.reject { |k| k == 'help' }.to_s
 		end
 
 
