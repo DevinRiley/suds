@@ -24,7 +24,7 @@ module SUDS
 			@nodes.first.last
 		end
 
-		def get_room(name)
+		def [](name)
 			@nodes[name]
 		end
 

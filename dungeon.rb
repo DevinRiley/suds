@@ -1,3 +1,8 @@
+# This class is sort of the orchestrator of game logic and state.
+# It passes its responsibilities off to other classes where possible
+# but it is the central hub for progression through the game. It will
+# become more useful if additional features are added, like NPCs and 
+# items, etc.
 module SUDS
 	class Dungeon
 		PATHS = %w(north east south west up down)
@@ -25,7 +30,7 @@ module SUDS
 		end
 
 		def self.describe_current_room
-			@map.get_room(@player.current_room).description
+			@map[@player.current_room].description
 		end
 
 		def self.first_room_name

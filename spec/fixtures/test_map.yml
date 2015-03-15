@@ -1,0 +1,25 @@
+rooms: 
+  - name: 'first_room'
+    description: 'starting test room'
+    links:
+      north: 'north_room'
+      east: 'east_room'
+      west: 'west_room'
+      south: 'south_room'
+  - name: 'north_room'
+    description: 'northern test room'
+    links:
+      south: 'first_room'
+  - name: 'east_room'
+    description: 'eastern test room'
+    links:
+      west: 'first_room'
+  - name: 'west_room'
+    description: 'western test room'
+    links:
+      east: 'first_room'
+  - name: 'south_room'
+    description: 'southern test room'
+    links:
+      north: 'first_room'
+
