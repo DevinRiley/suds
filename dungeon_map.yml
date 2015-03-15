@@ -1,0 +1,9 @@
+rooms: 
+  - name: 'entrance'
+    description: 'You are in a damp stony cavern.  A flickering torch lights the walls.'
+    links:
+      north: 'hall_one'
+  - name: 'hall_one'
+    description: 'You are in a spooky hall'
+    links:
+      south: 'entrance'

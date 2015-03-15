@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require File.expand_path('suds_server.rb')
+server = SUDS::Server.new
+server.run!
