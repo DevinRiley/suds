@@ -1,0 +1,9 @@
+items:
+  - name: 'Heathenslayer'
+    type: 'weapon'
+    category: 'sword'
+    description: 'The most epic sword of all time.'
+  - name: 'Fixture'
+    type: 'tool'
+    category: 'test'
+    description: 'fixture item for testing'

@@ -5,5 +5,8 @@ rooms:
       north: 'hall_one'
   - name: 'hall_one'
     description: 'You are in a spooky hall'
+    items:
+       - name: 'Heathenslayer'
+         count: 1
     links:
       south: 'entrance'

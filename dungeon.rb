@@ -1,4 +1,8 @@
-# This class is sort of the orchestrator of game logic and state.
+require File.expand_path('player.rb')
+require File.expand_path('item_list.rb')
+require File.expand_path('dungeon_map.rb')
+
+# This class is intended to serve as the  orchestrator of game logic and state.
 # It passes its responsibilities off to other classes where possible
 # but it is the central hub for progression through the game. It will
 # become more useful if additional features are added, like NPCs and 
@@ -8,6 +12,7 @@ module SUDS
 		PATHS = %w(north east south west up down)
 		# initialize the player and the dungeon map when the class loads
 		@player = Player.new
+		@items  = ItemList.create(YAML.load_file('item_file.yml')['items'])
 		@map    = DungeonMap.new(YAML.load_file('dungeon_map.yml')['rooms'])
 
 		# Define all map traversal methods dynamically (e.g. go_north).

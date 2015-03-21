@@ -1,13 +1,9 @@
 require 'socket'
 require 'yaml'
-require File.expand_path('player.rb')
 require File.expand_path('command_manager.rb')
-require File.expand_path('dungeon_map.rb')
-require File.expand_path('dungeon.rb')
 
 # TODO:
 # Make into a gem with proper directory structure
-# Add dungeon_map.yml wrapper class with better methods/data structure
 # Add tests     
 
 module SUDS
