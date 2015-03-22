@@ -1,4 +1,4 @@
-rooms: 
+rooms:
   - name: 'entrance'
     description: 'You are in a damp stony cavern.  A flickering torch lights the walls.'
     links:
@@ -7,6 +7,6 @@ rooms:
     description: 'You are in a spooky hall'
     items:
        - name: 'Heathenslayer'
-         count: 1
+       - name: 'candle'
     links:
       south: 'entrance'

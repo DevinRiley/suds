@@ -1,5 +1,8 @@
-items:
-  - name: 'Heathenslayer'
-    type: 'weapon'
-    category: 'sword'
-    description: 'The most epic sword of all time.'
+- name: 'Heathenslayer'
+  type: 'weapon'
+  category: 'sword'
+  description: 'Heathenslayer, the most epic sword of all time'
+- name: 'candle'
+  type: 'tool'
+  category: 'candle'
+  description: 'a candle with a healthy amount of wick'

@@ -1,6 +1,9 @@
 rooms: 
   - name: 'first_room'
     description: 'starting test room'
+    items:
+      - 'Fixture'
+      - 'Heathenslayer'
     links:
       north: 'north_room'
       east: 'east_room'

@@ -10,6 +10,7 @@ module SUDS
 			'S' => 'go_south',
 			'W' => 'go_west',
 			'L' => 'describe_current_room',
+			'I' => 'inspect_current_room',
 			'help' => 'show_help'
 		}
 
