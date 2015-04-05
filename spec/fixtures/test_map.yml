@@ -2,7 +2,7 @@ rooms:
   - name: 'first_room'
     description: 'starting test room'
     items:
-       - name: 'Fixture'
+       - 'Fixture'
     links:
       north: 'north_room'
       east: 'east_room'

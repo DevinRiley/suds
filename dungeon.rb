@@ -48,8 +48,8 @@ module SUDS
     def self.inspect_current_room
       return "Upon further inspection this room is boring." if current_items.empty?
       description = String.new
-      current_items.each do |item|
-        item_description = @items[item['name']].description
+      current_items.each do |item_name|
+        item_description = @items[item_name].description
         if description.empty?
           description += "You see #{item_description}"
         else
@@ -62,7 +62,7 @@ module SUDS
     # if the item is in the room, add it to the player's
     # inventory and remove it from the room.
     def self.take_item(item_name)
-      return "There is no #{item_name} here." unless current_items.include?("name" => item_name)
+      return "There is no #{item_name} here." unless current_items.include?(item_name)
       item_added = @player.add_to_inventory(item_name)
       if item_added
         remove_item_from_room(item_name)
@@ -90,7 +90,7 @@ module SUDS
     private
 
     def self.remove_item_from_room(item_name)
-      current_items.delete('name' => item_name)
+      current_items.delete(item_name)
     end
 
   end
