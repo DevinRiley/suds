@@ -35,7 +35,7 @@ module SUDS
 
     it "sets item names in their respective rooms" do
       expect(map.first_room.items.class).to eq Array
-      expect(map.first_room.items.first).to eq 'Fixture'
+      expect(map.first_room.items.last).to eq ({'name' => 'Fixture'})
     end
 
     describe DungeonMap::Node do

@@ -11,19 +11,10 @@ module SUDS
 			'W' => 'go_west',
 			'L' => 'describe_current_room',
 			'I' => 'inspect_current_room',
-			'help' => 'show_help'
+			'T' => 'take_item',
+			'help' => 'show_help',
+			'inventory' => 'show_inventory'
 		}
-
-		# if command manager doesn't have the method we're
-		# trying to call, try it on the Dungeon class.
-	  def self.method_missing(command)
-	  	command = command.to_s
-			if COMMANDS.has_key?(command)
-				return Dungeon.send(COMMANDS[command])
-			else
-				"Invalid command, type 'help' for a list of commands"
-			end
-	  end
 
 		private
 
@@ -33,7 +24,16 @@ module SUDS
 			COMMANDS.reject { |k| k == 'help' }.to_s
 		end
 
-
+		# if command manager doesn't have the method we're
+		# trying to call, try it on the Dungeon class.
+	  def self.method_missing(command, *args)
+	  	command = command.to_s
+			if COMMANDS.has_key?(command)
+				return Dungeon.send(COMMANDS[command], *args)
+			else
+				"Invalid command, type 'help' for a list of commands"
+			end
+	  end
 
 	end
 end

@@ -54,7 +54,7 @@ module SUDS
     def handle(command)
       # the command manager will deal with validating and
       # returning the requested output
-      CommandManager.send(command.strip)
+      CommandManager.send(*command.strip.split)
     end
 
   end

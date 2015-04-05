@@ -33,5 +33,26 @@ module SUDS
         expect(Dungeon.inspect_current_room.class).to eq String
       end
     end
+
+    describe "::take_item" do
+      let(:map_file) { YAML.load_file('spec/fixtures/test_map.yml')['rooms'] }
+      let(:map) { DungeonMap.new(map_file) }
+      let(:items) { ItemList.create(YAML.load_file('item_file.yml')) }
+      before(:each) do
+        Dungeon.instance_variable_set(:@items, items)
+        Dungeon.instance_variable_set(:@map, map)
+        player = Dungeon.instance_variable_get(:@player)
+        player.instance_variable_set(:@current_room, Dungeon.first_room_name)
+      end
+
+      it "takes an item from the room and puts into players inventory" do
+        expect{Dungeon.take_item('item_name')}.to_not raise_error
+        expect(Dungeon.take_item('Fixture')).to eq "Fixture taken."
+        expect(Dungeon.take_item('Fixture')).to eq "There is no Fixture here."
+      end
+
+      after(:all) { Dungeon.load() }
+    end
+
   end
 end
