@@ -2,6 +2,17 @@ require 'spec_helper'
 
 module SUDS
   describe Dungeon do
+    let(:map_data) { YAML.load_file('spec/fixtures/test_map.yml')['rooms'] }
+    let(:map) { DungeonMap.new(map_data) }
+    let(:items) { ItemList.create(YAML.load_file('spec/fixtures/test_items.yml')) }
+
+    before(:each) do
+      Dungeon.instance_variable_set(:@items, items)
+      Dungeon.instance_variable_set(:@map, map)
+      player = Dungeon.instance_variable_get(:@player)
+      player.instance_variable_set(:@current_room, Dungeon.first_room_name)
+    end
+
     describe "::traverse" do
       it "doesn't raise an error when called and returns a string" do
         expect{Dungeon.traverse('north')}.to_not raise_error
@@ -31,13 +42,11 @@ module SUDS
       it "returns a string that describes the items in the room" do
         expect{Dungeon.inspect_current_room}.to_not raise_error
         expect(Dungeon.inspect_current_room.class).to eq String
+        expect(Dungeon.inspect_current_room).to eq 'You see fixture item for testing.'
       end
     end
 
     describe "::take_item" do
-      let(:map_file) { YAML.load_file('spec/fixtures/test_map.yml')['rooms'] }
-      let(:map) { DungeonMap.new(map_file) }
-      let(:items) { ItemList.create(YAML.load_file('item_file.yml')) }
       before(:each) do
         Dungeon.instance_variable_set(:@items, items)
         Dungeon.instance_variable_set(:@map, map)

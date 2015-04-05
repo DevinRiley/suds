@@ -46,16 +46,17 @@ module SUDS
 
     # returns a string that describes the items in the current room
     def self.inspect_current_room
+      return "Upon further inspection this room is boring." if current_items.empty?
       description = String.new
       current_items.each do |item|
         item_description = @items[item['name']].description
         if description.empty?
-          description += "You see #{item_description}."
+          description += "You see #{item_description}"
         else
           description += " and #{item_description}"
         end
       end
-      description.empty? ? "Upon further inspection this room is boring." : description + '.'
+      description << '.'
     end
 
     # if the item is in the room, add it to the player's

@@ -1,7 +1,3 @@
-- name: 'Heathenslayer'
-  type: 'weapon'
-  category: 'sword'
-  description: 'Heathenslayer, the most epic sword of all time'
 - name: 'Fixture'
   type: 'tool'
   category: 'test'

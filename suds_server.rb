@@ -11,7 +11,7 @@ module SUDS
     PORT = 1337
 
     # Open socket on desired port
-    # When a client connects, read in commands
+    # When a client connects, read in commands.
     # Each command should perform some action
     # Actions are specified by your dungeon file
     def initialize

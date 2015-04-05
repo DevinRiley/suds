@@ -2,7 +2,6 @@ rooms:
   - name: 'first_room'
     description: 'starting test room'
     items:
-       - name: 'Heathenslayer'
        - name: 'Fixture'
     links:
       north: 'north_room'

@@ -2,14 +2,17 @@ require 'spec_helper'
 
 module SUDS
 	describe CommandManager do
-		# TODO: Just write expectations for each command
-		# rather than trying to do it dynamically.
-		xit "responds to all of its own methods and returns a string" do
-			CommandManager::COMMANDS.each do |command, method|
-				puts "Command, Method: #{command}, #{method}"
-				expect(CommandManager.send(command).class).to eq String
-				expect(CommandManager.send(command)).to_not include("Invalid")
-			end
+		describe "available commands" do
+			after(:each) { Dungeon.load() }
+			it { expect{described_class.N}.to_not raise_error }
+			it { expect{described_class.E}.to_not raise_error }
+			it { expect{described_class.S}.to_not raise_error }
+			it { expect{described_class.W}.to_not raise_error }
+			it { expect{described_class.L}.to_not raise_error }
+			it { expect{described_class.I}.to_not raise_error }
+			it { expect{described_class.T('item_name')}.to_not raise_error }
+			it { expect{described_class.inventory}.to_not raise_error }
+			it { expect{described_class.help}.to_not raise_error }			
 		end
 
 		it "returns an invalid message response even if it receives a batshit method call" do
