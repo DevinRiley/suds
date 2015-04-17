@@ -48,7 +48,7 @@ module SUDS
 
     def welcome_message
       "Welcome to SUDS, the spookiest single-user dungeon game around.\
-      Type 'help' for available commands"
+      Type 'help' for available commands\n" + Dungeon.describe_current_room
     end
     # read in the player command, validate it, and perform the action
     def handle(command)

@@ -12,6 +12,10 @@ module SUDS
 			end
 		end
 
+		it "responds to the 'U' command to use an item" do
+			expect(CommandManager.U('item')).to_not include("Invalid")
+		end
+
 		it "returns an invalid message response even if it receives a batshit method call" do
 			expect{ CommandManager.batshit }.to_not raise_error
 			expect(CommandManager.batshit).to include("Invalid")

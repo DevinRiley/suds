@@ -46,29 +46,29 @@ module SUDS
 
     # returns a string that describes the items in the current room
     def self.inspect_current_room
+      return "Upon further inspection this room is boring." if current_items.empty?
       description = String.new
       current_items.each do |item|
-        item_description = @items[item['name']].description
         if description.empty?
-          description += "You see #{item_description}."
+          description += "You see "
         else
-          description += " and #{item_description}"
+          description += " and "
         end
+        description += @items[item['name']].description
       end
-      description.empty? ? "Upon further inspection this room is boring." : description + '.'
+      description + '.'
     end
 
     # if the item is in the room, add it to the player's
     # inventory and remove it from the room.
     def self.take_item(item_name)
-      return "There is no #{item_name} here." unless current_items.include?("name" => item_name)
-      item_added = @player.add_to_inventory(item_name)
-      if item_added
-        remove_item_from_room(item_name)
-        return "#{item_name} taken."
-      else
-        return "There's not enough room to take #{item_name}"
-      end
+      return "There is no #{item_name} here." if !current_items.include?("name" => item_name)
+      try_to_give_item_to_player(item_name)
+    end
+
+    def self.use_item(item_name)
+      @player.use_item(item_name)
+      "#{item_name} used."
     end
 
     # TODO: might be nice to have the command manager
@@ -87,6 +87,15 @@ module SUDS
     end
 
     private
+
+    def self.try_to_give_item_to_player(item_name)
+      if @player.add_to_inventory(item_name)
+        remove_item_from_room(item_name)
+        return "#{item_name} taken."
+      else
+        return "There's not enough room to take #{item_name}"
+      end
+    end
 
     def self.remove_item_from_room(item_name)
       current_items.delete('name' => item_name)

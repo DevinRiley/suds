@@ -12,6 +12,7 @@ module SUDS
 			'L' => 'describe_current_room',
 			'I' => 'inspect_current_room',
 			'T' => 'take_item',
+			'U' => 'use_item',
 			'help' => 'show_help',
 			'inventory' => 'show_inventory'
 		}
