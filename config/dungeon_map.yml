@@ -6,7 +6,7 @@ rooms:
   - name: 'hall_one'
     description: 'You are in a spooky hall'
     items:
-       - name: 'Heathenslayer'
-       - name: 'candle'
+       - 'Heathenslayer'
+       - 'candle'
     links:
       south: 'entrance'

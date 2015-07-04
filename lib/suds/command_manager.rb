@@ -1,4 +1,3 @@
-require File.expand_path('dungeon.rb')
 # This class is designed to handle all the user input,
 # route it to the appropriate places, and return a string
 # to display to the user.

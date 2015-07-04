@@ -1,7 +1,4 @@
-require File.expand_path('player.rb')
-require File.expand_path('item_list.rb')
-require File.expand_path('dungeon_map.rb')
-
+require 'yaml'
 # This class is intended to serve as the  orchestrator of game logic and state.
 # It passes its responsibilities off to other classes where possible
 # but it is the central hub for progression through the game. It will
@@ -16,8 +13,9 @@ module SUDS
     # class is easier to test.
     def self.load
       @player = Player.new
-      @items  = ItemList.create(YAML.load_file('item_file.yml'))
-      @map    = DungeonMap.new(YAML.load_file('dungeon_map.yml')['rooms'])
+      config_directory = File.expand_path('../../../config/', __FILE__)
+      @items  = ItemList.create(YAML.load_file(config_directory + '/item_file.yml'))
+      @map    = DungeonMap.new(YAML.load_file(config_directory + '/dungeon_map.yml')['rooms'])
     end
     load()
 

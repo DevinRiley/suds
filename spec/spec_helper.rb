@@ -1,5 +1,4 @@
-# Require all the things
-require File.expand_path('suds_server');
+require 'suds'
 
 RSpec.configure do |config|
   config.order = 'random'
