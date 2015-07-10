@@ -5,11 +5,11 @@ module SUDS
     let(:map_data) { YAML.load_file('spec/fixtures/test_map.yml')['rooms'] }
     let(:map) { DungeonMap.new(map_data) }
     let(:items) { ItemList.create(YAML.load_file('spec/fixtures/test_items.yml')) }
+    let(:player) { Player.new() }
 
     before(:each) do
       Dungeon.instance_variable_set(:@items, items)
       Dungeon.instance_variable_set(:@map, map)
-      player = Dungeon.instance_variable_get(:@player)
       player.instance_variable_set(:@current_room, Dungeon.first_room_name)
     end
 
@@ -26,23 +26,21 @@ module SUDS
 
     describe "::describe_current_room" do
       it "returns a string" do
-        expect{Dungeon.describe_current_room}.to_not raise_error
-        expect(Dungeon.describe_current_room.class).to eq String
+        expect(Dungeon.describe_current_room(player).class).to eq String
       end
     end
 
     describe "::first_room_name" do
       it "returns a string" do
-        expect{Dungeon.first_room_name}.to_not raise_error
         expect(Dungeon.first_room_name.class).to eq String
       end
     end
 
     describe "::inspect_current_room" do
       it "returns a string that describes the items in the room" do
-        expect{Dungeon.inspect_current_room}.to_not raise_error
-        expect(Dungeon.inspect_current_room.class).to eq String
-        expect(Dungeon.inspect_current_room).to eq 'You see fixture item for testing.'
+        expect{Dungeon.inspect_current_room(player)}.to_not raise_error
+        expect(Dungeon.inspect_current_room(player).class).to eq String
+        expect(Dungeon.inspect_current_room(player)).to eq 'You see fixture item for testing.'
       end
     end
 
@@ -50,7 +48,6 @@ module SUDS
       before(:each) do
         Dungeon.instance_variable_set(:@items, items)
         Dungeon.instance_variable_set(:@map, map)
-        player = Dungeon.instance_variable_get(:@player)
         player.instance_variable_set(:@current_room, Dungeon.first_room_name)
       end
 

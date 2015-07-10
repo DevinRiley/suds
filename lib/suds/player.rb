@@ -3,7 +3,7 @@ module SUDS
 		attr_writer :current_room
 
     def initialize
-      @inventory = Hash.new(0)
+      @inventory = Hash.new(0) # Hash will return 0 if key not found
     end
 
     def add_to_inventory(item_name)
@@ -12,6 +12,10 @@ module SUDS
 
     def show_inventory
       @inventory.to_s
+    end
+
+    def use_item(item_name)
+      item = @inventory.delete(item_name)
     end
 
 		# returns the player's current room name.  Defaults to
