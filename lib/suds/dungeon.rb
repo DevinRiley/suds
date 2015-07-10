@@ -12,7 +12,6 @@ module SUDS
     # Wrapping this initialization in a method so that this singleton
     # class is easier to test.
     def self.load
-      @player = Player.new
       config_directory = File.expand_path('../../../config/', __FILE__)
       @items  = ItemList.create(YAML.load_file(config_directory + '/item_file.yml'))
       @map    = DungeonMap.new(YAML.load_file(config_directory + '/dungeon_map.yml')['rooms'])
@@ -22,31 +21,32 @@ module SUDS
     # Define all map traversal methods dynamically (e.g. go_north).
     # All they do is call the traverse method with a path.
     PATHS.each do |path|
-      define_singleton_method "go_#{path}" do
-        traverse(path)
+      define_singleton_method("go_#{path}") do |player|
+        traverse(path, player)
       end
     end
 
     # travels the desired path and returns the next description
-    def self.traverse(path)
-      destination = @map.traverse(@player.current_room, path)
-      if !destination.nil?
-        @player.current_room = destination.name
-        return describe_current_room
+    def self.traverse(path, player)
+      destination = @map.traverse(player.current_room, path)
+      if destination
+        player.current_room = destination.name
+        return describe_current_room(player)
       else
         return "You can't go #{path}."
       end
     end
 
-    def self.describe_current_room
-      @map[@player.current_room].description
+    def self.describe_current_room(player)
+      @map[player.current_room].description
     end
 
     # returns a string that describes the items in the current room
-    def self.inspect_current_room
-      return "Upon further inspection this room is boring." if current_items.empty?
+    def self.inspect_current_room(player)
+      return "Upon further inspection this room is boring." if current_items(player).empty?
+
       description = String.new
-      current_items.each do |item_name|
+      current_items(player).each do |item_name|
         item_description = @items[item_name].description
         if description.empty?
           description += "You see #{item_description}"
@@ -59,11 +59,11 @@ module SUDS
 
     # if the item is in the room, add it to the player's
     # inventory and remove it from the room.
-    def self.take_item(item_name)
-      return "There is no #{item_name} here." unless current_items.include?(item_name)
-      item_added = @player.add_to_inventory(item_name)
+    def self.take_item(item_name, player)
+      return "There is no #{item_name} here." unless current_items(player).include?(item_name)
+      item_added = player.add_to_inventory(item_name)
       if item_added
-        remove_item_from_room(item_name)
+        remove_item_from_room(item_name, player)
         return "#{item_name} taken."
       else
         return "There's not enough room to take #{item_name}"
@@ -73,12 +73,12 @@ module SUDS
     # TODO: might be nice to have the command manager
     # figure out who the player is so we don't have
     # to use this pass-through method
-    def self.show_inventory
-      @player.show_inventory
+    def self.show_inventory(player)
+      player.show_inventory
     end
 
-    def self.current_items
-      @map[@player.current_room].items
+    def self.current_items(player)
+      @map[player.current_room].items
     end
 
     def self.first_room_name
@@ -87,8 +87,8 @@ module SUDS
 
     private
 
-    def self.remove_item_from_room(item_name)
-      current_items.delete(item_name)
+    def self.remove_item_from_room(item_name, player)
+      current_items(player).delete(item_name)
     end
 
   end

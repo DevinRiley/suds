@@ -19,16 +19,17 @@ module SUDS
 
 		# The help command just prints back our commands hash
 		# except for the help command itself
-		def self.help
-			COMMANDS.reject { |k| k == 'help' }.to_s
+		def self.help(player)
+			COMMANDS.reject { |key| key == 'help' }.to_s
 		end
 
 		# if command manager doesn't have the method we're
 		# trying to call, try it on the Dungeon class.
 	  def self.method_missing(command, *args)
+      puts "command #{command}, args: #{args}"
 	  	command = command.to_s
 			if COMMANDS.has_key?(command)
-				return Dungeon.send(COMMANDS[command], *args)
+				Dungeon.send(COMMANDS[command], *args)
 			else
 				"Invalid command, type 'help' for a list of commands"
 			end
