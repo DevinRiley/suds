@@ -12,8 +12,8 @@ module SUDS
 			'I' => 'inspect_current_room',
 			'T' => 'take_item',
 			'U' => 'use_item',
-      'C' => 'chat',
-			'help' => 'show_help',
+      'chat' => 'chat to fellow players',
+			'help' => 'show help',
 			'inventory' => 'show_inventory'
 		}
 
