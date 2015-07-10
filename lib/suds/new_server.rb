@@ -11,7 +11,7 @@ module SUDS
       attr_reader :client
       def initialize(io)
         @client = io
-        @request, @response = "", ""
+        @request, @response, @broadcast = "", "", "Yay"
         @player = Player.new
         respond(welcome_message)
         on_writable
@@ -26,10 +26,12 @@ module SUDS
         @request << data
         if @request.end_with?(CRLF)
           # Request is completed.
-          respond CommandManager.send(*@request.strip.split, @player)
+          response = CommandManager.send(*@request.strip.split, @player)
+          respond(response) unless response.empty?
           @request = ""
         end
       end
+
       def respond(message)
         @response << message + CRLF
         # Write what can be written immediately,
@@ -50,6 +52,16 @@ module SUDS
       def monitor_for_writing?
         !(@response.empty?)
       end
+
+      def broadcast?
+        !@broadcast.empty?
+      end
+
+      def read_broadcast
+        temp = @broadcast
+        @broadcast = ""
+        temp
+      end
     end
 
     def initialize(port = PORT)
@@ -58,14 +70,13 @@ module SUDS
     end
 
     def run
+      puts 'Starting server...'
       @handles = {}
       loop do
-        puts 'run'
         to_read = @handles.values.select(&:monitor_for_reading?).map(&:client)
         to_write = @handles.values.select(&:monitor_for_writing?).map(&:client)
         readables, writables = IO.select(to_read + [@control_socket], to_write)
         readables.each do |socket|
-          puts "Read something"
           if socket == @control_socket
             io = @control_socket.accept
             connection = Connection.new(io)
@@ -87,6 +98,25 @@ module SUDS
           connection.on_writable
         end
       end
+
     end
+
+
+    def broadcast(message)
+      @handles.values.each do |connection|
+        connection.respond(message.to_s)
+      end
+    end
+
+    private
+
+    def get_broadcast_message(connections)
+      if connections.any? { |connection| connection.broadcast? }
+        return connections.select { |connection| connection.broadcast? }.map(&:read_broadcast).join(Connection::CRLF)
+      else
+        return false
+      end
+    end
+
   end
 end

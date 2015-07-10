@@ -12,6 +12,7 @@ module SUDS
 			'I' => 'inspect_current_room',
 			'T' => 'take_item',
 			'U' => 'use_item',
+      'C' => 'chat',
 			'help' => 'show_help',
 			'inventory' => 'show_inventory'
 		}
@@ -23,6 +24,11 @@ module SUDS
 		def self.help(player)
 			COMMANDS.reject { |key| key == 'help' }.to_s
 		end
+
+    def self.chat(message, player)
+      $server.broadcast("Player #{player.object_id} says: #{message}")
+      ""
+    end
 
 		# if command manager doesn't have the method we're
 		# trying to call, try it on the Dungeon class.
