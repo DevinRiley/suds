@@ -3,5 +3,5 @@
 $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
 require 'suds'
 
-server = SUDS::Evented.new(4481)
+server = SUDS::Evented.new
 server.run

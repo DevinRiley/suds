@@ -21,12 +21,12 @@ module SUDS
     # All they do is call the traverse method with a path.
     PATHS.each do |path|
       define_singleton_method("go_#{path}") do |player|
-        traverse(path, player)
+        traverse(player, path)
       end
     end
 
     # travels the desired path and returns the next description
-    def self.traverse(path, player)
+    def self.traverse(player, path)
       destination = @map.traverse(player.current_room, path)
       if destination
         player.current_room = destination.name
@@ -56,12 +56,12 @@ module SUDS
     # if the item is in the room, add it to the player's
     # inventory and remove it from the room.
 
-    def self.take_item(item_name, player)
+    def self.take_item(player, item_name)
       return "There is no #{item_name} here." unless current_items(player).include?(item_name)
-      try_to_give_item_to_player(item_name, player)
+      try_to_give_item_to_player(player, item_name)
     end
 
-    def self.use_item(item_name, player)
+    def self.use_item(player, item_name)
       player.use_item(item_name)
       "#{item_name} used."
     end
@@ -83,13 +83,13 @@ module SUDS
 
     private
 
-    def self.remove_item_from_room(item_name, player)
+    def self.remove_item_from_room(player, item_name)
       current_items(player).delete(item_name)
     end
 
-    def self.try_to_give_item_to_player(item_name, player)
+    def self.try_to_give_item_to_player(player, item_name)
       if player.add_to_inventory(item_name)
-        remove_item_from_room(item_name, player)
+        remove_item_from_room(player, item_name)
         return "#{item_name} taken."
       else
         return "There's not enough room in your inventory to take #{item_name}"

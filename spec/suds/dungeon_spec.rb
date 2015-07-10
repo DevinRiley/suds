@@ -15,12 +15,12 @@ module SUDS
 
     describe "::traverse" do
       it "doesn't raise an error when called and returns a string" do
-        expect{Dungeon.traverse('north', player)}.to_not raise_error
-        expect(Dungeon.traverse('east', player).class).to eq String
+        expect{Dungeon.traverse(player, 'north')}.to_not raise_error
+        expect(Dungeon.traverse(player, 'east').class).to eq String
       end
 
       it "tells you when you can't travel in a direction" do
-        expect(Dungeon.traverse('wrong', player)).to include("You can't go")
+        expect(Dungeon.traverse(player, 'wrong')).to include("You can't go")
       end
     end
 
@@ -52,9 +52,9 @@ module SUDS
       end
 
       it "takes an item from the room and puts into players inventory" do
-        expect{Dungeon.take_item('item_name', player)}.to_not raise_error
-        expect(Dungeon.take_item('Fixture', player)).to eq "Fixture taken."
-        expect(Dungeon.take_item('Fixture', player)).to eq "There is no Fixture here."
+        expect{Dungeon.take_item(player, 'item_name')}.to_not raise_error
+        expect(Dungeon.take_item(player, 'Fixture')).to eq "Fixture taken."
+        expect(Dungeon.take_item(player, 'Fixture')).to eq "There is no Fixture here."
       end
 
       after(:all) { Dungeon.load() }

@@ -3,6 +3,7 @@ require 'socket'
 # ./code/ftp/arch/evented.rb
 module SUDS
   class Evented
+    PORT = 1337
     CHUNK_SIZE = 1024 * 16
 
     class Connection
@@ -12,7 +13,13 @@ module SUDS
         @client = io
         @request, @response = "", ""
         @player = Player.new
+        respond(welcome_message)
         on_writable
+      end
+
+      def welcome_message
+        "Welcome to SUDS, the spookiest single-user dungeon game around.\
+        Type 'help' for available commands"
       end
 
       def on_data(data)
@@ -21,7 +28,7 @@ module SUDS
           # Request is completed.
           respond CommandManager.send(*@request.strip.split, @player)
           @request = ""
-        end 
+        end
       end
       def respond(message)
         @response << message + CRLF
@@ -45,7 +52,7 @@ module SUDS
       end
     end
 
-    def initialize(port = 1337)
+    def initialize(port = PORT)
       @control_socket = TCPServer.new(port)
       trap(:INT) { exit }
     end
@@ -53,10 +60,12 @@ module SUDS
     def run
       @handles = {}
       loop do
+        puts 'run'
         to_read = @handles.values.select(&:monitor_for_reading?).map(&:client)
         to_write = @handles.values.select(&:monitor_for_writing?).map(&:client)
         readables, writables = IO.select(to_read + [@control_socket], to_write)
         readables.each do |socket|
+          puts "Read something"
           if socket == @control_socket
             io = @control_socket.accept
             connection = Connection.new(io)
@@ -64,7 +73,7 @@ module SUDS
           else
             connection = @handles[socket.fileno]
             begin
-            data = socket.read_nonblock(CHUNK_SIZE)
+              data = socket.read_nonblock(CHUNK_SIZE)
               connection.on_data(data)
             rescue Errno::EAGAIN
             rescue EOFError

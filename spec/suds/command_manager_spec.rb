@@ -11,8 +11,8 @@ module SUDS
 			it { expect{described_class.W(player)}.to_not raise_error }
 			it { expect{described_class.L(player)}.to_not raise_error }
 			it { expect{described_class.I(player)}.to_not raise_error }
-			it { expect{described_class.T('item_name', player)}.to_not raise_error }
-			it { expect{described_class.U('item_name', player)}.to_not raise_error }
+			it { expect{described_class.T(player, 'item_name')}.to_not raise_error }
+			it { expect{described_class.U(player, 'item_name')}.to_not raise_error }
 			it { expect{described_class.inventory(player)}.to_not raise_error }
 			it { expect{described_class.help(player)}.to_not raise_error }
 		end
