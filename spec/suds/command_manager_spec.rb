@@ -3,16 +3,18 @@ require 'spec_helper'
 module SUDS
 	describe CommandManager do
 		describe "available commands" do
+      let(:player) { Player.new() }
 			after(:each) { Dungeon.load() }
-			it { expect{described_class.N}.to_not raise_error }
-			it { expect{described_class.E}.to_not raise_error }
-			it { expect{described_class.S}.to_not raise_error }
-			it { expect{described_class.W}.to_not raise_error }
-			it { expect{described_class.L}.to_not raise_error }
-			it { expect{described_class.I}.to_not raise_error }
-			it { expect{described_class.T('item_name')}.to_not raise_error }
-			it { expect{described_class.inventory}.to_not raise_error }
-			it { expect{described_class.help}.to_not raise_error }			
+			it { expect{described_class.N(player)}.to_not raise_error }
+			it { expect{described_class.E(player)}.to_not raise_error }
+			it { expect{described_class.S(player)}.to_not raise_error }
+			it { expect{described_class.W(player)}.to_not raise_error }
+			it { expect{described_class.L(player)}.to_not raise_error }
+			it { expect{described_class.I(player)}.to_not raise_error }
+			it { expect{described_class.T('item_name', player)}.to_not raise_error }
+			it { expect{described_class.U('item_name', player)}.to_not raise_error }
+			it { expect{described_class.inventory(player)}.to_not raise_error }
+			it { expect{described_class.help(player)}.to_not raise_error }
 		end
 
 		it "returns an invalid message response even if it receives a batshit method call" do

@@ -5,7 +5,6 @@ require 'yaml'
 # become more useful if additional features are added, like NPCs etc.
 module SUDS
   class Dungeon
-    attr_reader :player
     PATHS = %w(north east south west up down)
 
     # Initialize the player and the dungeon map when the class loads.
@@ -58,12 +57,12 @@ module SUDS
     # inventory and remove it from the room.
 
     def self.take_item(item_name, player)
-      return "There is no #{item_name} here." if !current_items.include?("name" => item_name)
+      return "There is no #{item_name} here." unless current_items(player).include?(item_name)
       try_to_give_item_to_player(item_name, player)
     end
 
-    def self.use_item(item_name)
-      @player.use_item(item_name)
+    def self.use_item(item_name, player)
+      player.use_item(item_name)
       "#{item_name} used."
     end
 
@@ -90,10 +89,10 @@ module SUDS
 
     def self.try_to_give_item_to_player(item_name, player)
       if player.add_to_inventory(item_name)
-        remove_item_from_room(item_name)
+        remove_item_from_room(item_name, player)
         return "#{item_name} taken."
       else
-        return "There's not enough room to take #{item_name}"
+        return "There's not enough room in your inventory to take #{item_name}"
       end
     end
 

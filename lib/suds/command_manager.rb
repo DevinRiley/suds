@@ -27,7 +27,6 @@ module SUDS
 		# if command manager doesn't have the method we're
 		# trying to call, try it on the Dungeon class.
 	  def self.method_missing(command, *args)
-      puts "command #{command}, args: #{args}"
 	  	command = command.to_s
 			if COMMANDS.has_key?(command)
 				Dungeon.send(COMMANDS[command], *args)
